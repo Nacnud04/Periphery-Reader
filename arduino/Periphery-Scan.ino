@@ -1,4 +1,5 @@
 #include <Keypad.h>
+/* Example sketch to control a 28BYJ-48 stepper motor with ULN2003 driver board and Arduino UNO. More info: https://www.makerguides.com */
 // Include the Arduino Stepper.h library:
 #include <Stepper.h>
 #include <Wire.h>
@@ -119,7 +120,7 @@ void loop() {
         long duration, inches, cm;
         pinMode(pingPin, OUTPUT);
         digitalWrite(BUZZER_PIN, HIGH);
-        delay(20);
+        delay(1);
         digitalWrite(BUZZER_PIN, LOW);
         digitalWrite(pingPin, LOW);
         delayMicroseconds(2);
@@ -132,7 +133,7 @@ void loop() {
         cm = microsecondsToCentimeters(duration);
         Serial.println(inches);
         myStepper.step(-64);
-        delay(500);
+        delay(1);
         loops = loops + 1;
       }
       loops = 1 ;
@@ -153,12 +154,10 @@ void loop() {
       digitalWrite(BUZZER_PIN, HIGH);
       delay(20);
       digitalWrite(BUZZER_PIN, LOW);
-      myStepper.step(1024);
-      delay(500);
       endloops = endloops + 1;
     }
     if (endloops >= 1 and progrun == 0) {
-      myStepper.step(-512);
+      myStepper.step(512);
       digitalWrite(BUZZER_PIN, HIGH);
       delay(150);
       int chk = DHT.read11(DHT11_PIN);
@@ -343,5 +342,8 @@ void loop() {
       }
       i = i + 1;
     }
+  }
+  if (key == 'C') {
+    Serial.print("Rewrite");
   }
 }
