@@ -1,6 +1,6 @@
+#!/usr/bin/env python
 import serial
 import csv
-import time
 from statistics import mean
 
 azumith = [180]
@@ -15,8 +15,6 @@ except :
         print("Establishing Serial on /dev/ttyACM1...")
     except :
         print("No microcontroller found.")
-        while True :
-            time.sleep(0.1)
 ser.close()
 ser.open()
 
@@ -41,6 +39,8 @@ while True:
     elif data == b'Angles:\r\n' :
         with open(file, 'w+') as output_file:
             i = 1
+            azumith = [180]
+            ally = [0]
             while i <= 150 :
                 data = ser.readline()
                 values = data.decode("utf-8")
@@ -74,6 +74,20 @@ while True:
                 datapoints.append(int(data.decode("utf-8")))
                 i += 1
             csv_writer.writerow(datapoints)
+    elif data == b'Rewrite\r\n' :
+        print('Beginning rewrite...') 
+        with open(file, 'r') as read_file:
+            reader = csv.reader(read_file)
+            for row in reader :
+                if line_count == 0 :
+                    row0 = row
+                elif line_count == 1 :
+                    row1 = row
+        with open(file, 'w+') as new_file:
+            rewrite = csv.writer(new_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            csvwriter.writerow(row0)
+            csvWriter.writerow(row1)
+        print('Finished rewrite.')
     elif data == b'Temp + Humid\r\n' :
         data = ser.readline()
         print(data.decode("utf-8"))
