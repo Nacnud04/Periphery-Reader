@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import sys
 import csv
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -13,9 +15,14 @@ xstation = 0
 ystation = 0
 zstation = 0
 angle = 90
-for i in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) :
-    with open('/home/pi/Desktop/mineProj/locationData/A-' + str(i) + '.csv', 'r') as csv_file:# open in readonly mode
+keyletter = 'A'
+
+for i in range(int(sys.argv[1])) :
+    with open('/home/pi/Desktop/mineProj/locationData/' + keyletter + '-' + str(i) + '.csv', 'r') as csv_file:# open in readonly mode
         csv_reader = csv.reader(csv_file, delimiter=',')
+        if i == 9 :
+            keyletter = 'B'
+            i = 0
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
@@ -126,42 +133,52 @@ for i in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) :
                 line_count += 1
             elif line_count == 3:
                 print(row)
-                with open('/home/pi/Desktop/mineProj/locationData/top/points.csv', 'a+') as csv_filetemp:
-                    csv_writer = csv.writer(csv_filetemp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                    one = int(f'{row[0]}')
-                    twox = int(f'{row[1]}') * math.cos(math.pi/16)
-                    twoy = int(f'{row[1]}') * math.sin(math.pi/16)
-                    threex = int(f'{row[2]}') * math.cos(math.pi/8)
-                    threey = int(f'{row[2]}') * math.sin(math.pi/8)
-                    fourx = int(f'{row[3]}') * math.cos(3*math.pi/16)
-                    foury = int(f'{row[3]}') * math.sin(3*math.pi/16)
-                    fivex = int(f'{row[4]}') * math.cos(math.pi/4)
-                    fivey = int(f'{row[4]}') * math.sin(math.pi/4)
-                    sixx = int(f'{row[5]}') * math.cos(5*math.pi/16)
-                    sixy = int(f'{row[5]}') * math.sin(5*math.pi/16)
-                    sevenx = int(f'{row[6]}') * math.cos(3*math.pi/8)
-                    seveny = int(f'{row[6]}') * math.sin(3*math.pi/8)
-                    eightx = int(f'{row[7]}') * math.cos(7*math.pi/16)
-                    eighty = int(f'{row[7]}') * math.sin(7*math.pi/16)
-                    nine = int(f'{row[8]}')
-                    tenx = int(f'{row[9]}') * math.cos(9*math.pi/16)
-                    teny = int(f'{row[9]}') * math.sin(9*math.pi/16)
-                    elevenx = int(f'{row[10]}') * math.cos(10*math.pi/16)
-                    eleveny = int(f'{row[10]}') * math.sin(10*math.pi/16)
-                    twelvex = int(f'{row[11]}') * math.cos(11*math.pi/16)
-                    twelvey = int(f'{row[11]}') * math.sin(11*math.pi/16)
-                    thirteenx = int(f'{row[12]}') * math.cos(12*math.pi/16)
-                    thirteeny = int(f'{row[12]}') * math.sin(12*math.pi/16)
-                    fourteenx = int(f'{row[13]}') * math.cos(13*math.pi/16)
-                    fourteeny = int(f'{row[13]}') * math.sin(13*math.pi/16)
-                    fifteenx = int(f'{row[14]}') * math.cos(14*math.pi/16)
-                    fifteeny = int(f'{row[14]}') * math.sin(14*math.pi/16)
-                    sixteenx = int(f'{row[15]}') * math.cos(15*math.pi/16)
-                    sixteeny = int(f'{row[15]}') * math.sin(15*math.pi/16)
-                    seventeen = -1 * int(f'{row[16]}')
-                    xpoint = [one, twox, threex, fourx, fivex, sixx, sevenx, eightx, 0, tenx, elevenx, twelvex, thirteenx, fourteenx, fifteenx, sixteenx, seventeen]
-                    ypoint = [0, twoy, threey, foury, fivey, sixy, seveny, eighty, nine, teny, eleveny, twelvey, thirteeny, fourteeny, fifteeny, sixteeny, 0]
-                    zpoint = [one, twox, threex, fourx, fivex, sixx, sevenx, eightx, 0, tenx, elevenx, twelvex, thirteenx, fourteenx, fifteenx, sixteenx, seventeen]
+#                 datapointqty = 16
+#                 zpoint = [0.0]
+#                 tot = 16
+#                 pointnum = 0
+#                 while pointnum <= tot :
+#                     x.append(int(row[pointnum])*math.cos(pointnum*math.pi/16))
+#                     y.append(int(row[pointnum])*math.sin(pointnum*math.pi/16))
+#                     z.append(0.0)
+#                     pointnum += 1
+#                 x.pop(0)
+#                 y.pop(0)
+#                 z.pop(0)
+                one = int(f'{row[0]}')
+                twox = int(f'{row[1]}') * math.cos(math.pi/16)
+                twoy = int(f'{row[1]}') * math.sin(math.pi/16)
+                threex = int(f'{row[2]}') * math.cos(math.pi/8)
+                threey = int(f'{row[2]}') * math.sin(math.pi/8)
+                fourx = int(f'{row[3]}') * math.cos(3*math.pi/16)
+                foury = int(f'{row[3]}') * math.sin(3*math.pi/16)
+                fivex = int(f'{row[4]}') * math.cos(math.pi/4)
+                fivey = int(f'{row[4]}') * math.sin(math.pi/4)
+                sixx = int(f'{row[5]}') * math.cos(5*math.pi/16)
+                sixy = int(f'{row[5]}') * math.sin(5*math.pi/16)
+                sevenx = int(f'{row[6]}') * math.cos(3*math.pi/8)
+                seveny = int(f'{row[6]}') * math.sin(3*math.pi/8)
+                eightx = int(f'{row[7]}') * math.cos(7*math.pi/16)
+                eighty = int(f'{row[7]}') * math.sin(7*math.pi/16)
+                nine = int(f'{row[8]}')
+                tenx = int(f'{row[9]}') * math.cos(9*math.pi/16)
+                teny = int(f'{row[9]}') * math.sin(9*math.pi/16)
+                elevenx = int(f'{row[10]}') * math.cos(10*math.pi/16)
+                eleveny = int(f'{row[10]}') * math.sin(10*math.pi/16)
+                twelvex = int(f'{row[11]}') * math.cos(11*math.pi/16)
+                twelvey = int(f'{row[11]}') * math.sin(11*math.pi/16)
+                thirteenx = int(f'{row[12]}') * math.cos(12*math.pi/16)
+                thirteeny = int(f'{row[12]}') * math.sin(12*math.pi/16)
+                fourteenx = int(f'{row[13]}') * math.cos(13*math.pi/16)
+                fourteeny = int(f'{row[13]}') * math.sin(13*math.pi/16)
+                fifteenx = int(f'{row[14]}') * math.cos(14*math.pi/16)
+                fifteeny = int(f'{row[14]}') * math.sin(14*math.pi/16)
+                sixteenx = int(f'{row[15]}') * math.cos(15*math.pi/16)
+                sixteeny = int(f'{row[15]}') * math.sin(15*math.pi/16)
+                seventeen = -1 * int(f'{row[16]}')
+                xpoint = [one, twox, threex, fourx, fivex, sixx, sevenx, eightx, 0, tenx, elevenx, twelvex, thirteenx, fourteenx, fifteenx, sixteenx, seventeen]
+                ypoint = [0, twoy, threey, foury, fivey, sixy, seveny, eighty, nine, teny, eleveny, twelvey, thirteeny, fourteeny, fifteeny, sixteeny, 0]
+                zpoint = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
                 line_count += 1
             else:
                 line_count += 1
@@ -175,13 +192,11 @@ for i in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) :
     print('angle')
     if angle != 0 or angle != 180 :
         xpoint = [x * (math.cos(angle * math.pi / 180)) - 0 * (math.sin(angle * math.pi / -180)) for x in xpoint]
-        zpoint = [z * (math.sin(angle * math.pi / 180)) for z in zpoint]
-    else :
-        zpoint = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+#         zpoint = [z * (math.sin(angle * math.pi / 180)) for z in zpoint]
     print('I-Value: ' + str(i))
     if j == 0 :
         xpoint = [x + float(xstation1) for x in xpoint]
-        ypoint = [y + float(ystation1) for y in ypoint]
+        ypoint = [(y + float(ystation1)) / 12 for y in ypoint]
         zpoint = [z + float(zstation1) for z in zpoint]
         xstation = xstation2
         ystation = ystation2
@@ -189,7 +204,7 @@ for i in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) :
         j += 1
     elif j >= 1 :
         xpoint = [x + float(xstation) for x in xpoint]
-        ypoint = [y + float(ystation) for y in ypoint]
+        ypoint = [(y + float(ystation)) / 12 for y in ypoint]
         zpoint = [z + float(zstation) for z in zpoint]
         xstation = xstation1
         ystation = ystation1
@@ -210,16 +225,36 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.set_ylabel('1 Unit : 1 Foot')
-ax.set_zlabel('North (+)')
-ax.set_xlabel('Up (+)')
-ax.scatter(y, z, x, marker = 'o', color = "blue")
-i = 1
-while i <= len(y) - 17 :
-    ax.plot(y[i:i+17], z[i:i+17], x[i:i+17], color = "black")
-    i += 17
-i = 1
-while i <= len(y) / 8 :
-    ax.plot(y[i::17], z[i::17], x[i::17], color = "black")
-    i += 1
+ax.set_xlabel('1 Unit : 1 Foot')
+ax.set_ylabel('North (+)')
+ax.set_zlabel('Up (+)')
+if sys.argv[2] == '-c' :
+    ax.scatter(x, z, y, marker = '.', color = sys.argv[3])
+    i = 1
+    while i <= len(y) - 17 :
+        ax.plot(x[i:i+17], z[i:i+17], y[i:i+17], color = sys.argv[4])
+        i += 17
+    i = 1
+    while i <= len(y) / int(sys.argv[1]) :
+        ax.plot(x[i::17], z[i::17], y[i::17], color = sys.argv[4])
+        i += 1
+        
+else : 
+    ax.scatter(x, z, y, marker = '.', color = "#aaaaaa")
+    i = 1
+    while i <= len(y) - 17 :
+        ax.plot(x[i:i+17], z[i:i+17], y[i:i+17], color = "black")
+        i += 17
+    i = 1
+    while i <= len(y) / int(sys.argv[1]) :
+        ax.plot(x[i::17], z[i::17], y[i::17], color = "black")
+        i += 1
+i = 0
+try :
+    while True:
+        print(str(i) + ':' + sys.argv[i])
+        i += 1
+except :
+    print('Done!')
 plt.show()
+
